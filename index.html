@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apply Now</title>
+  <style>
+    body{font-family:Arial;background:#f4f6f8;margin:0;padding:20px}
+    .card{max-width:520px;margin:20px auto;background:#fff;padding:22px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    h2{margin:0 0 8px}
+    p{margin:0 0 16px;color:#555}
+    input,select,button{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+    button{background:#0a66c2;color:#fff;border:none;font-weight:700;cursor:pointer}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .ok{color:green;margin-top:10px}
+    .err{color:#c00;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Apply to Download Brochure</h2>
+    <p>Fill details below. Brochure opens after submission.</p>
+
+    <form id="f">
+      <input name="name" placeholder="Full Name" required />
+      <input name="address" placeholder="Full Address" required />
+      <input name="age" type="number" placeholder="Age" required />
+      <select name="qualification" required>
+        <option value="">Highest Qualification</option>
+        <option>10th</option>
+        <option>12th</option>
+        <option>Graduate</option>
+        <option>Post Graduate</option>
+        <option>Other</option>
+      </select>
+
+      <button id="btn" type="submit">Submit</button>
+      <div id="msg"></div>
+    </form>
+  </div>
+
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyhXsw9b_qg2_ceSNqXCcZ2hlQYwRAN6c3mycfNYGeoagavVJzDmMUMuRvVEkAnhHN_3A/exec";
+const BROCHURE_URL = "PASTE_BROCHURE_LINK_HERE"; // optional for now
+
+document.getElementById("f").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("btn");
+  const msg = document.getElementById("msg");
+  btn.disabled = true;
+  msg.innerHTML = "";
+
+  const formData = new FormData(e.target);
+  const payload = Object.fromEntries(formData.entries());
+
+  try {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {"Content-Type":"application/json"}
+    });
+
+    if (!res.ok) throw new Error("Submit failed");
+
+    msg.innerHTML = `<div class="ok">Submitted successfully </div>`;
+    // If you add brochure link later, uncomment:
+    // window.location.href = BROCHURE_URL;
+
+    e.target.reset();
+  } catch (err) {
+    msg.innerHTML = `<div class="err">Error: Could not submit. Try again.</div>`;
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
