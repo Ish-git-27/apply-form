@@ -1,30 +1,77 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Apply Now</title>
+  <meta charset="UTF-8">
+  <title>Apply to Download Brochure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
-    body{font-family:Arial;background:#f4f6f8;margin:0;padding:20px}
-    .card{max-width:520px;margin:20px auto;background:#fff;padding:22px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-    h2{margin:0 0 8px}
-    p{margin:0 0 16px;color:#555}
-    input,select,button{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
-    button{background:#0a66c2;color:#fff;border:none;font-weight:700;cursor:pointer}
-    button:disabled{opacity:.6;cursor:not-allowed}
-    .ok{color:green;margin-top:10px}
-    .err{color:#c00;margin-top:10px}
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    p {
+      text-align: center;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      background: #0a66c2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #004182;
+    }
+    .note {
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+      margin-top: 12px;
+    }
   </style>
 </head>
-<body>
-  <div class="card">
-    <h2>Apply to Download Brochure</h2>
-    <p>Fill details below. Brochure opens after submission.</p>
 
-    <form id="f">
-      <input name="name" placeholder="Full Name" required />
-      <input name="address" placeholder="Full Address" required />
-      <input name="age" type="number" placeholder="Age" required />
+<body>
+
+  <div class="container">
+    <h2>Apply to Download Brochure</h2>
+    <p>Fill the form below to continue</p>
+
+    <form method="POST" action="https://script.google.com/macros/s/AKfycbw73xDuing6_CV-6HoO2M0XNGB8nzEg4E29ceqfhu8cBXh7e9a4T07kCLxBsRs4oC-tHA/exec">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="text" name="address" placeholder="Full Address" required>
+      <input type="number" name="age" placeholder="Age" required>
+
       <select name="qualification" required>
         <option value="">Highest Qualification</option>
         <option>10th</option>
@@ -34,44 +81,13 @@
         <option>Other</option>
       </select>
 
-      <button id="btn" type="submit">Submit</button>
-      <div id="msg"></div>
+      <button type="submit">Submit & Download Brochure</button>
     </form>
+
+    <div class="note">
+      Your data is used only for recruitment purposes.
+    </div>
   </div>
 
-<script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyhXsw9b_qg2_ceSNqXCcZ2hlQYwRAN6c3mycfNYGeoagavVJzDmMUMuRvVEkAnhHN_3A/exec";
-
-document.getElementById("f").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const btn = document.getElementById("btn");
-  const msg = document.getElementById("msg");
-  btn.disabled = true;
-  msg.innerHTML = "";
-
-  const formData = new FormData(e.target);
-  const payload = Object.fromEntries(formData.entries());
-
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {"Content-Type":"application/json"}
-    });
-
-    if (!res.ok) throw new Error("Submit failed");
-
-    msg.innerHTML = `<div class="ok">Submitted successfully </div>`;
-    // If you add brochure link later, uncomment:
-    // window.location.href = BROCHURE_URL;
-
-    e.target.reset();
-  } catch (err) {
-    msg.innerHTML = `<div class="err">Error: Could not submit. Try again.</div>`;
-  } finally {
-    btn.disabled = false;
-  }
-});
-</script>
 </body>
 </html>
